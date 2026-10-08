@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f5b57">
+<title>Group Visit & Encouragement Dashboard</title>
+<style>
+:root{--bg:#eef3f0;--c:#fff;--t:#1d2b29;--m:#5d706c;--a:#1f5b57;--g:#d9a441;--b:#d5e0dc;--s:#e8f0ed}
+[data-m=dark]{--bg:#111a19;--c:#1a2624;--t:#e6efec;--m:#95aaa5;--a:#5fb3a8;--g:#e3b95c;--b:#2b3c39;--s:#213431}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,sans-serif;transition:background .2s}
+h1,h2,h3{font-family:Georgia,serif;margin:.2em 0}
+header{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--a);color:#fff}
+header h1{font-size:22px;letter-spacing:.04em;margin:0}header small{opacity:.85}
+header select{min-height:44px;margin:0;background:#fff;color:#1d2b29}
+main{padding:12px 12px 100px;max-width:760px;margin:auto}
+.card{background:var(--c);border:1px solid var(--b);border-radius:20px;padding:16px;margin:0 0 12px}
+details.card summary{font-weight:600;min-height:32px;cursor:pointer}
+.pur{border-left:6px solid var(--g)}.q{font:italic 20px/1.4 Georgia,serif;margin:.3em 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stats div{background:var(--c);border:1px solid var(--b);border-radius:16px;padding:10px;font-size:12px;color:var(--m)}
+.stats b{display:block;font-size:17px;color:var(--t);overflow-wrap:anywhere}
+label{display:block;font-size:13px;color:var(--m);margin:10px 0 0}
+input,select,textarea{width:100%;min-height:48px;padding:10px 12px;margin-top:4px;font:inherit;color:var(--t);background:var(--bg);border:1px solid var(--b);border-radius:12px}
+input[type=checkbox]{width:24px;height:24px;min-height:0;margin:0}
+.chk{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--t);min-height:48px}
+button,.btn{min-height:48px;padding:10px 16px;font:600 15px system-ui;border:0;border-radius:14px;background:var(--a);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;margin:4px 4px 0 0}
+.b2{background:var(--s);color:var(--a);border:1px solid var(--b)}.bd{background:#a64b45}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}
+.chips button{flex:none;margin:0;background:var(--c);color:var(--t);border:1px solid var(--b)}
+.chips .on{background:var(--a);color:#fff}
+.tw{overflow-x:auto}table{border-collapse:collapse;min-width:900px;width:100%}
+td,th{padding:4px;text-align:left;font-size:13px;vertical-align:top}td input,td select{margin:0;min-height:44px;min-width:90px}
+td button{min-height:40px;padding:6px 10px;font-size:13px}
+.prev{white-space:pre-wrap;background:var(--s);border-radius:16px;padding:16px;border:1px dashed var(--a)}
+.lock{opacity:.5;pointer-events:none}.warn{background:var(--s);padding:10px;border-radius:12px;font-size:14px}
+.ref{display:block;color:var(--t);text-decoration:none;font-weight:600}.ref small{color:var(--m);font-weight:400}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--c);border-top:1px solid var(--b);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;margin:0;border-radius:0;background:none;color:var(--m);flex-direction:column;font-size:10.5px;min-height:58px;padding:6px 0}
+nav button span{font-size:21px}nav .on{color:var(--a);background:var(--s)}
+#toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:var(--t);color:var(--bg);padding:10px 18px;border-radius:24px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9}
+#toast.s{opacity:1}
+:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<header><svg viewBox="0 0 64 64" width="52" height="52" role="img" aria-label="Group Visit logo"><rect width="64" height="64" rx="16" fill="#12403d"/><path d="M6 44c9-3 18-3 26 1 8-4 17-4 26-1v13c-9-3-18-3-26 1-8-4-17-4-26-1z" fill="#f4e6c3"/><path d="M32 45v13" stroke="#12403d" stroke-width="1.5"/><circle cx="21" cy="30" r="5" fill="#f0c48a"/><circle cx="32" cy="27" r="5.5" fill="#f8d9a8"/><circle cx="43" cy="30" r="5" fill="#f0c48a"/><path d="M12 44c0-9 4-12 9-12s9 3 9 12zM23 44c0-10 4-13 9-13s9 3 9 13zM34 44c0-9 4-12 9-12s9 3 9 12z" fill="#d9a441"/><path d="M28 15c-5-4-7-6-7-9 0-3 4-4 7-1 3-3 7-2 7 1 0 3-2 5-7 9z" fill="#e0685e" transform="translate(4 4)"/><path d="M45 4h11a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4l-4 4v-4h-3a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="#fff"/><circle cx="46" cy="10" r="1.2" fill="#12403d"/><circle cx="50.5" cy="10" r="1.2" fill="#12403d"/><circle cx="55" cy="10" r="1.2" fill="#12403d"/></svg>
+<div><h1>GROUP VISIT</h1><small id="sub">Encourage • Build Up • Strengthen</small></div><select data-lang aria-label="Language" style="margin-left:auto;width:auto"><option value="en">English</option><option value="ga">Ga</option></select></header>
+<main id="main"></main>
+<nav id="nav"></nav><div id="toast" role="status"></div><input type="file" id="imp" accept=".json" hidden>
+<script>
+const K='groupvisit.v1',$=s=>document.querySelector(s);
+const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DY=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const TABS=[['home','🏠','Home'],['sched','📅','Schedule'],['groups','👥','Groups'],['enc','📖','Encourage'],['inv','📨','Invites'],['set','⚙️','Settings']];
+const TH=[
+['Jehovah Sees What You Do','Hebrews 6:10','Jehovah does not forget the work and love shown for his name.','A father may notice a small act of kindness from his child even when nobody else sees it. Jehovah notices even more.','What is one thing you have done recently for Jehovah that perhaps nobody else noticed?'],
+['Keep Going—Your Faithful Work Matters','Galatians 6:9; 1 Corinthians 15:58','','A farmer may work for months before seeing the harvest. The absence of immediate results does not mean his work is useless.','Have you ever felt tired because you did not see immediate results? What can help you keep going?'],
+['Jehovah Cares About You Personally','Psalm 55:22; 1 Peter 5:7; Psalm 34:18','The congregation is not simply a place where we perform assignments. It is a spiritual family where people need encouragement.','','What reminds you that Jehovah cares about you personally?'],
+['Keep Your Spiritual Fire Burning','Romans 12:11; Hebrews 10:24, 25; Psalm 1:2, 3','Discuss: personal Bible reading, meetings, ministry, prayer, family worship, association.','A fire does not normally remain strong without fuel. Spiritual routines provide fuel for our faith.','Which spiritual routine gives you the most strength, and how can you protect it?'],
+['Jehovah Can Help Us Through Difficult Times','James 1:13; Psalm 34:17-19; Revelation 21:4','God is not the cause of our problems, and he cares about those in distress. (See “Will Suffering Ever End?”)','A child walking a dark road may feel afraid, but holding a loving parent’s hand gives courage. Jehovah does not always remove the difficult road immediately, but he can give strength to continue.','When life becomes difficult, what can help us remember that Jehovah has not forgotten us?'],
+['Keep Your Eyes on Jehovah’s Promises','Psalm 37:29','The Bible promises everlasting life, freedom from sickness and a restored earth. (See “Can We Live Forever?”)','A traveler can endure a difficult journey when he knows where he is going. Jehovah’s promises give Christians a clear destination.','How does thinking about Jehovah’s promises help you remain faithful when life is difficult?']
+].map(a=>({t:a[0],s:a[1],k:a[2],i:a[3],q:a[4]}));
+const J='https://www.jw.org/finder?wtlocale=E&';
+const def=()=>({tab:'home',cur:0,inv:0,mode:'',lang:'en',ga:{},en:{},
+groups:[0,1,2,3,4,5].map(i=>({n:'Group '+(i+1),mo:'',dy:'',dt:'',tm:'',el:'',th:TH[i].t,iv:'',nt:'',fp:'',st:'Scheduled',done:false,rm:[],g:['','','','',''],fc:[0,0,0,0,0],fd:'',fn:''})),
+themes:TH,
+scr:[['Hebrews 6:10','Jehovah does not forget your work or the love you have shown for his name.'],['1 Thessalonians 5:11','Keep encouraging one another and building one another up.'],['Galatians 6:9','Do not give up in doing what is fine; in due time we will reap if we do not tire out.'],['1 Corinthians 15:58','Stay steadfast—your labor in the Lord is never in vain.'],['Psalm 100:2','Serve Jehovah with rejoicing.']],
+links:[['Can We Live Forever?',J+'docid=1102024301'],['Will Suffering Ever End?',J+'docid=1102024313'],['Family',J+'pub=T-fam'],['God',J+'pub=T-god'],['Prayer',J+'pub=T-pry'],['Death',J+'pub=T-dth']],
+conv:'What have you enjoyed most about serving Jehovah recently?\nWhat is something you have seen in the congregation that encouraged you?\nWhat helps you keep going when you feel tired?\nIs there anything we can do as elders that would make your service to Jehovah more joyful?\nWhat spiritual goal would you like to work on?',
+pi:{ti:'',th:'',sp:'',dt:'',tm:'',lo:'',el:'',ms:'We are very happy to invite you to join us for a special occasion. Our desire is simply to spend time together, encourage one another and strengthen our appreciation for Jehovah and the wonderful privilege of serving him.'}});
+const GA={
+'Home':'Shĩa','Schedule':'Be kɛ Gbi','Groups':'Kuui','Encourage':'Hewalɛ Hãmɔ','Invites':'Kpaŋmɔi','Settings':'Nɔtsɔɔmɔi',
+'Encourage • Build Up • Strengthen':'Hãa Hewalɛ • Kpɛlɛ Shi • Hãa Ni Ewa',
+'Next Visit':'Kpaamɔ Ni Baa','Visits Completed':'Kpaamɔi Ni Eba Naagbee','Follow-Ups':'Naanɔ Nitsumɔi','Invitations Prepared':'Kpaŋmɔi Ni Ekɛ Shi',
+'❤️ Purpose of the Visit':'❤️ Kpaamɔ Lɛ Shishi',
+'“Your work for Jehovah is noticed. Your faithfulness matters.”':'“Yehowa kwɛɔ onitsumɔ ni okɛtsuɔ lɛ. Ohemɔkɛyeli hiaa.”',
+'We are not coming to inspect you. We are coming because we value you.':'Wɔyaaa akɛ wɔbakwɛ nyɛ nɔ; wɔyaa akɛ nyɛ hiaa wɔ.',
+'📅 Next Group Visit':'📅 Kuu Kpaamɔ Ni Baa','Group':'Kuu','Month':'Nyɔŋ','Day':'Gbi','Date':'Gbi Ni','Time':'Be','Visiting elders':'Onukpai ni baakpa','Status':'Nɔ ni yɔɔ',
+'No upcoming visit yet. Open Schedule to set one.':'Kpaamɔ ko bɛ ni baa tsɔ. Kɛ Be kɛ Gbi wo mli.','Schedule a visit':'Wo kpaamɔ ko',
+'📝 Visit Notes':'📝 Kpaamɔ Ŋmalɛi','📨 Send Invitation':'📨 Tsu Kpaŋmɔ','Copy':'Kopi','✅ Visit Completed':'✅ Kpaamɔ Lɛ Eba Naagbee',
+'Schedule a Visit':'Wo Kpaamɔ Be','Theme (choose or write your own)':'Sane (fee kɛ ŋmɛ ko)','Reminders':'Kaimɔi',
+'1 day before':'Gbi 1 no','3 days before':'Gbii 3 no','1 week before':'Otsi 1 no','SAVE SCHEDULE':'SIE BE KƐ GBI','Scheduled Visits':'Kpaamɔi Ni Awo Be',
+'Nothing scheduled yet. Fill in the form above and save.':'Bɛ nɔ ko ni awo be. Ŋmaa nɔ ni yɔɔ shishi lɛ ni osie.','Edit':'Tsake','Delete':'Kpata',
+'Group name':'Kuu lɛ gbɛi','Theme':'Sane','Public-talk invitation wording (blank = default)':'Kpaŋmɔ wiemɔi (fã = shishi)','Notes':'Ŋmalɛi','Follow-up points':'Naanɔ nibii',
+'Notice the Good':'Kwɛ Nɔ Kpakpa Lɛ','Look for the good before discussing the difficulty.':'Kwɛ nɔ kpakpa lɛ dani ofɔ nɔ ni miifɔ lɛ he wiemɔ.',
+'One spiritual strength':'Mumɔ hewalɛ kome','One act of faithfulness':'Anɔkwayeli nitsumɔ kome','One quality observed':'Suɔmɔ nɔ kome ni okwɛ','One thing to encourage':'Nɔ kome ni ahã hewalɛ','One practical way the elders can help':'Gbɛ kome ni onukpai baanyɛ atsɔɔ ekomɛi',
+'After the Visit':'Kpaamɔ Lɛ Sɛɛ','Record all five good things above first. Follow-up unlocks once the encouragement is written down.':'Ŋmaa nibii kpakpai enumɔ lɛ fɛɛ klɛŋklɛŋ. Naanɔ nitsumɔ baaje shi beni okɛ hewalɛ hãmɔ lɛ aŋma sɛɛ.',
+'Encouragement given':'Ahã hewalɛ','Spiritual goal discussed':'Amɛwie mumɔ nifeemɔ he','Practical help identified':'Anu tsɔɔmɔ ni baanyɛ aye ekomɛi','Publisher encouraged':'Ahã shiɛlɔ lɛ hewalɛ','Follow-up needed':'Naanɔ hiaa','Follow-up date':'Naanɔ gbi','Follow-up notes':'Naanɔ ŋmalɛi',
+'Group Visit Table':'Kuu Kpaamɔ Tebul','Save':'Sie','Copy Invitation':'Kopi Kpaŋmɔ',
+'We want each publisher to feel that Jehovah sees his or her efforts. Even when someone feels that what they are doing is small, Jehovah values loyal service.':'Wɔsumɔ akɛ shiɛlɔ ko fɛɛ ekwɛ akɛ Yehowa kwɛɔ enitsumɔ. Aloo beni mɔ ko susuɔ akɛ nɔ ni eeefee lɛ nyɛɛ, Yehowa hiɛ anɔkwa sɔɔmɔ he.',
+'We love you.':'Wɔsumɔ nyɛ.','We appreciate you.':'Wɔyiwala nyɛ.','Jehovah sees your efforts.':'Yehowa kwɛɔ nyɛ nitsumɔ.','You are valuable to the congregation.':'Nyɛ hiaa asafo lɛ.','We want to help you keep going.':'Wɔsumɔ akɛ wɔye nyɛ kɛ nyɛ ni nyɛkɛ nyɛtsu nii.','Your faithful service matters.':'Nyɛ anɔkwa nitsumɔ lɛ hiaa.',
+'Scriptures':'Ŋmalɛ Krɔŋkrɔŋ lɛ mli Wiemɔi','Reference':'Kɛjɛ','Thought':'Susumɔ','Six Encouragement Themes':'Hewalɛ Hãmɔ Sanei Ekpaa','Key scriptures':'Ŋmalɛi ni hiaa','Key / heart thought':'Susumɔ ni hiaa','Illustration':'Nɔ Tsɔɔmɔ Ŋɔɔ','Heart question':'Mli Bilɛ',
+'Conversation Guide: Start with Appreciation':'Wiemɔ Tsɔɔmɔ: Fite Yiwala Yɛ Mli','Suggested questions (one per line)':'Bilɛi ni akɛ (kome yɛ nɔ kome)','JW.org Reference Library':'JW.org Kɛjɛ Ŋmalɛi Lɛ','Opens jw.org in a new tab':'Ebɔ jw.org yɛ tab hee mli','Use for this group':'Kɛtsu nii yɛ kuu nɛɛ',
+'Public Talk Invitation':'Maŋ Wiemɔ Kpaŋmɔ','Title':'Sane Gbɛi','Speaker':'Wiemɔ lɔ','Location':'Bɔ ni ehe yɔɔ','Signed by (elders)':'Onukpai ni ŋma','Special invitation message':'Kpaŋmɔ wiemɔi kpakpa',
+'GENERATE INVITATION':'FEE KPAŊMƆ','COPY':'KOPI','SHARE TO WHATSAPP':'TSU KƐYA WHATSAPP','SHARE TO SIGNAL':'TSU KƐYA SIGNAL','TRANSLATE TO GOOGLE TRANSLATE':'TSƆƆ NƆ YƐ GOOGLE TRANSLATE','Invitation preview (editable)':'Kpaŋmɔ lɛ (obaanyɛ otsake)',
+'Appearance (— = automatic)':'Tsɔɔmɔ (— = ehe ejɛ)','EXPORT DATA':'TSƆ DATA','IMPORT DATA':'KƐ DATA BA','RESET APP':'TSAKE APP LƐ KƐYA SHI','Label':'Gbɛi','Link':'Link','Language':'Wiemɔ','Ga translations':'Ga Tsɔɔmɔi',
+'All data stays on this device. Export a backup regularly.':'Nibii fɛɛ yɛ nɔ ni okɛtsuɔ nii nɛɛ mli. Tsɔ backup yɛ be fɛɛ be.','Names of visiting elders':'Onukpai ni baakpa lɛ gbɛi',
+'Dear brothers and sisters,':'Nyɛmimɛ ni wɔsumɔɔ,','We are very happy to invite you to join us for a special visit with your group.':'Wɔhiɛ ehi waa ni wɔkpaŋ nyɛ ni nyɛba wɔkɛ nyɛ kuu lɛ akpaa yɛ gbɛ ni tamɔ hee.',
+'Our desire is simply to spend time together, encourage one another, and strengthen our appreciation for Jehovah and the wonderful privilege of serving him.':'Wɔsumɔɔ ni wɔkɛ wɔhe abɔ, wɔhã wɔhe hewalɛ, ni wɔkɛ Yehowa yiwala ni sɔɔmɔ lɛ ehe hegbɛ kpakpa lɛ aha mli aba.',
+'We look forward to being together and enjoying this encouraging occasion.':'Wɔmiisusu ni wɔkɛ nyɛ ahi shi ni wɔhiɛ ahi yɛ be nɛɛ mli.','With Christian love,':'Kɛ Kristofoi suɔmɔ mli,',
+'We are very happy to inform you that we will soon be visiting your group.':'','One week before the visit, we would also like to meet with you and your assistant. During this meeting, we will briefly go through the publishers’ records together. This will help us identify areas where individual publishers may need encouragement, commendation, or practical assistance to make further progress in their ministry.':'','Our goal is not simply to review records, but to understand how we can better support the brothers and sisters, recognize their good efforts, and help each one continue to grow spiritually. We are really looking forward to working together with you and sharing this encouraging time with the group.':'','Thank you for your loving cooperation and for the work you are doing to care for the brothers and sisters.':'',
+'Reminder':'Kaimɔ','today':'ŋmɛnɛ','day(s)':'gbii','Copied':'Ekopi','Saved':'Esie','Schedule saved':'Esie be kɛ gbi lɛ','Invitation ready':'Kpaŋmɔ lɛ ehi','Data imported':'Ekɛ data lɛ eba','App reset':'Etsake app lɛ kɛya shi','Theme updated':'Etsake sane lɛ','Copied — paste into Signal':'Ekopi — wo yɛ Signal',
+'Delete this scheduled visit?':'Okpata kpaamɔ nɛɛ?','That is not a valid Group Visit backup file.':'Faelɔ nɛɛ ji Group Visit backup ni sa.',
+'⚠️ This will erase ALL schedules, notes, themes and settings on this device. This cannot be undone. Export a backup first if unsure. Continue?':'⚠️ Nɛɛ baakpata be kɛ gbi, ŋmalɛi, sanei kɛ nɔtsɔɔmɔi fɛɛ yɛ nɔ ni okɛtsuɔ nii nɛɛ mli. Ebaanyɛ ekɛ shi ekɛ ba ko. Kɛ osumɔɔ, tsɔ backup klɛŋklɛŋ. Okɛ nɔ?'};
+const GAD={conv:'Mɛni ehãa ohãa ofɛɛ ohiɛ ehi yɛ Yehowa sɔɔmɔ mli yɛ be ni eho lɛ mli?\nMɛni okwɛ yɛ asafo lɛ mli ni ehã ohewalɛ?\nMɛni ehãa ohewalɛ beni ofɔ̃ ohe lɛ?\nNɔ ko yɛ ni wɔonukpai lɛ wɔbanyɛ wɔfee ni ohãa Yehowa sɔɔmɔ lɛ ehi ohiɛ ehãa?\nMumɔ nifeemɔ mɛɛ okɛsumɔɔ ni ofee?','pi.ms':'Wɔhiɛ ehi waa ni wɔkpaŋ nyɛ ni nyɛba wɔkɛ nyɛ nɔ ni wɔkɛ ekãa. Wɔsumɔɔ ni wɔkɛ nyɛ ahi shi, wɔkɛ hewalɛ ahã ekomɛi, ni wɔkɛ Yehowa yiwala kɛ sɔɔmɔ ni wɔɔsɔɔ lɛ ehe hegbɛ lɛ aha mli aba.'};
+['Yehowa Kwɛɔ Nɔ Ni Ofeɔ','Ye Nɔ Nɔ—Onitsumɔ Anɔkwa Lɛ Hiaa','Yehowa Kwɛɔ Bo Diɛŋtsɛ','Ha Mumɔ Ŋmɔɔ Lɛ Ni Eku Wa','Yehowa Baanyɛ Ahãa Wɔ Ekomɛi Yɛ Be Ni Mli Wa Mli','Ha Ohiŋmɛii Ye Yehowa Shweremɔi Lɛ Nɔ'].forEach((x,i)=>{GAD['themes.'+i+'.t']=x;GAD['groups.'+i+'.th']=x});
+const T=k=>S.lang=='ga'?(S.ga[k]||GA[k]||k):(S.en[k]||k);
+const g0=(o,p)=>p.split('.').reduce((a,k)=>a&&a[k],o);
+function setLang(n){const d=def(),o=S.lang;for(const p in GAD){const en=g0(d,p),ga=GAD[p],c=get(p);if(o=='ga'&&n=='en'&&c===ga)set(p,en);else if(o!='ga'&&n=='ga'&&c===en)set(p,ga)}S.lang=n;save();render()}
+function tr(r){const w=document.createTreeWalker(r,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);
+a.forEach(n=>{if(n.parentNode.closest('textarea,option,script,[data-notr]'))return;const s=n.nodeValue,k=s.trim();if(k){const v=T(k);if(v!==k)n.nodeValue=s.replace(k,()=>v)}});
+r.querySelectorAll('[aria-label],[placeholder]').forEach(e=>{if(e.closest('[data-notr]'))return;['aria-label','placeholder'].forEach(x=>{const k=e.getAttribute(x);if(k){const v=T(k);if(v!==k)e.setAttribute(x,v)}})})}
+const gt=x=>window.open('https://translate.google.com/?sl=auto&tl=gaa&op=translate&text='+encodeURIComponent(x),'_blank','noopener');
+const pv=()=>$('#prev')?$('#prev').innerText:piText();
+let S=(()=>{try{const x=JSON.parse(localStorage.getItem(K));return x?Object.assign(def(),x):def()}catch(e){return def()}})();
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const get=p=>p.split('.').reduce((o,k)=>o&&o[k],S);
+const set=(p,v)=>{const a=p.split('.'),l=a.pop();a.reduce((o,k)=>o[k],S)[l]=v;save()};
+const cg=()=>S.groups[S.cur],gp=k=>`groups.${S.cur}.${k}`;
+const f=(l,p,t='text',x='')=>`<label>${l}<input type="${t}" data-p="${p}" value="${esc(get(p))}" ${x}></label>`;
+const ta=(l,p,r=3,g)=>`<label>${l}<textarea rows="${r}" data-p="${p}">${esc(get(p))}</textarea></label>${g?`<button type="button" class="b2" data-a="gtp" data-pp="${p}">TRANSLATE TO GOOGLE TRANSLATE</button>`:''}`;
+const sel=(l,p,o)=>`<label>${l}<select data-p="${p}"><option value="">—</option>${o.map(v=>`<option${v==get(p)?' selected':''}>${v}</option>`).join('')}</select></label>`;
+const today=()=>new Date().toLocaleDateString('en-CA');
+const fmt=d=>d?new Date(d+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'—';
+const daysTo=d=>Math.round((new Date(d+'T12:00')-new Date(today()+'T12:00'))/864e5);
+const next=()=>S.groups.filter(g=>g.dt&&!g.done&&g.dt>=today()).sort((a,b)=>a.dt.localeCompare(b.dt))[0];
+const chips=()=>`<div class="chips">${S.groups.map((g,i)=>`<button data-cur="${i}" class="${i==S.cur?'on':''}">${esc(g.n)}</button>`).join('')}</div>`;
+const invDefault=()=>[T('We are very happy to inform you that we will soon be visiting your group.'),T('Our desire is simply to spend time together, encourage one another, and strengthen our appreciation for Jehovah and the wonderful privilege of serving him.'),T('One week before the visit, we would also like to meet with you and your assistant. During this meeting, we will briefly go through the publishers’ records together. This will help us identify areas where individual publishers may need encouragement, commendation, or practical assistance to make further progress in their ministry.'),T('Our goal is not simply to review records, but to understand how we can better support the brothers and sisters, recognize their good efforts, and help each one continue to grow spiritually. We are really looking forward to working together with you and sharing this encouraging time with the group.'),T('Thank you for your loving cooperation and for the work you are doing to care for the brothers and sisters.')].join('\n\n');
+const invText=g=>`${T('Dear brothers and sisters,')}\n\n${g.iv.trim()||invDefault()}\n\n📖 ${T('Theme')}: ${g.th||'—'}\n📅 ${T('Date')}: ${fmt(g.dt)}\n⏰ ${T('Time')}: ${g.tm||'—'}\n\n${T('With Christian love,')}\n${g.el||'—'}`;
+const piText=()=>{const p=S.pi,L=[];L.push(T('Dear brothers and sisters,'),'',p.ms,'');
+if(p.ti)L.push('📖 '+T('Title')+': '+p.ti);if(p.th)L.push('💡 '+T('Theme')+': '+p.th);if(p.sp)L.push('🎤 '+T('Speaker')+': '+p.sp);if(p.dt)L.push('📅 '+T('Date')+': '+fmt(p.dt));if(p.tm)L.push('⏰ '+T('Time')+': '+p.tm);if(p.lo)L.push('📍 '+T('Location')+': '+p.lo);
+L.push('',T('With Christian love,'),p.el||'—');return L.join('\n')};
+const stats=()=>{const n=next();return `<div><b>6</b>Groups</div><div><b>${n?esc(n.n):'—'}</b>Next Visit${n?'<br>'+n.dt:''}</div><div><b>${S.groups.filter(g=>g.done).length}</b>Visits Completed</div><div><b>${S.groups.filter(g=>g.fc[4]).length}</b>Follow-Ups</div><div><b>${S.inv}</b>Invitations Prepared</div><div><b>❤️</b>1 Thess. 5:11</div>`};
+function toast(m){const t=$('#toast');t.textContent=T(m);t.className='s';clearTimeout(toast.h);toast.h=setTimeout(()=>t.className='',1800)}
+function copy(x){const d=()=>toast('Copied');navigator.clipboard?.writeText(x).then(d,fb)||fb();function fb(){const a=document.createElement('textarea');a.value=x;document.body.append(a);a.select();try{document.execCommand('copy');d()}catch(e){}a.remove()}}
+const wa=x=>window.open('https://wa.me/?text='+encodeURIComponent(x),'_blank');
+const sig=x=>navigator.share?navigator.share({text:x}).catch(()=>{}):(copy(x),toast('Copied — paste into Signal'));
+const bump=()=>{S.inv++;save()};
+function good(){const g=cg();return `<div class="card"><h3>Notice the Good</h3><p class="q">Look for the good before discussing the difficulty.</p>${['One spiritual strength','One act of faithfulness','One quality observed','One thing to encourage','One practical way the elders can help'].map((l,i)=>ta(l,gp('g.'+i),2)).join('')}</div>`}
+function follow(){const g=cg(),ok=g.g.every(x=>x.trim());return `<div class="card"><h3>After the Visit</h3>${ok?'':'<div class="warn">Record all five good things above first. Follow-up unlocks once the encouragement is written down.</div>'}<div class="${ok?'':'lock'}">${['Encouragement given','Spiritual goal discussed','Practical help identified','Publisher encouraged','Follow-up needed'].map((l,i)=>`<label class="chk"><input type="checkbox" data-fc="${i}" ${g.fc[i]?'checked':''}>${l}</label>`).join('')}${f('Follow-up date',gp('fd'),'date')}${ta('Follow-up notes',gp('fn'),3)}</div></div>`}
+function table(){return `<div class="card"><h3>Group Visit Table</h3><div class="tw"><table><tr><th>Group<th>Month<th>Day<th>Date<th>Time<th>Theme<th>Status<th></tr>${S.groups.map((g,i)=>{const P=k=>`groups.${i}.${k}`,v=k=>esc(g[k]);return `<tr><td><input aria-label="Group name" data-p="${P('n')}" value="${v('n')}"><td><input aria-label="Month" list="mo" data-p="${P('mo')}" value="${v('mo')}"><td><input aria-label="Day" list="dy" data-p="${P('dy')}" value="${v('dy')}"><td><input aria-label="Date" type="date" data-p="${P('dt')}" value="${v('dt')}"><td><input aria-label="Time" type="time" data-p="${P('tm')}" value="${v('tm')}"><td><input aria-label="Theme" data-p="${P('th')}" value="${v('th')}"><td><input aria-label="Status" list="st" data-p="${P('st')}" value="${v('st')}"><td><button class="b2" data-a="edit" data-i="${i}">Edit</button><button data-a="tsave" data-i="${i}">Save</button><button class="bd" data-a="del" data-i="${i}">Delete</button><button class="b2" data-a="cpy" data-i="${i}">Copy Invitation</button></tr>`}).join('')}</table></div></div>
+<datalist id="mo">${MO.map(m=>`<option>${m}`).join('')}</datalist><datalist id="dy">${DY.map(m=>`<option>${m}`).join('')}</datalist><datalist id="st"><option>Scheduled<option>Completed<option>Postponed</datalist>`}
+const V={
+home(){const g=cg(),n=next();let r='';if(n){const d=daysTo(n.dt);if(n.rm.some(x=>d<=x))r=`<div class="card warn">🔔 ${T('Reminder')}: ${esc(n.n)} — ${d?d+' '+T('day(s)'):T('today')}</div>`}
+const row=(l,v)=>`<div><small>${l}</small> <b>${esc(v||'—')}</b></div>`;
+return `<div id="stats" class="stats">${stats()}</div>${r}
+<div class="card pur"><h3>❤️ Purpose of the Visit</h3><p class="q">“Your work for Jehovah is noticed. Your faithfulness matters.”</p><p>We are not coming to inspect you. We are coming because we value you.</p></div>
+<div class="card"><h3>📅 Next Group Visit</h3>${n?row('Group',n.n)+row('Month',n.mo)+row('Day',n.dy)+row('Date',fmt(n.dt))+row('Time',n.tm)+row('Visiting elders',n.el)+row('Status',n.st):'<p>No upcoming visit yet. Open Schedule to set one.</p><button data-go="sched">Schedule a visit</button>'}</div>
+${chips()}<div class="card"><h3>👥 ${esc(g.n)}</h3><p><b>📖 ${esc(g.th||'Choose a theme')}</b></p>${ta('📝 Visit Notes',gp('nt'),4)}
+<button data-a="wa" data-i="${S.cur}">📨 Send Invitation</button><button class="b2" data-a="cpy" data-i="${S.cur}">Copy</button>
+<label class="chk"><input type="checkbox" data-done ${g.done?'checked':''}>✅ Visit Completed</label></div>`},
+sched(){const g=cg();return `<div class="card"><h3>Schedule a Visit</h3><label>Group<select id="gsel">${S.groups.map((x,i)=>`<option value="${i}"${i==S.cur?' selected':''}>${esc(x.n)}</option>`).join('')}</select></label>${sel('Month',gp('mo'),MO)}${sel('Day',gp('dy'),DY)}${f('Date',gp('dt'),'date')}${f('Time',gp('tm'),'time')}${f('Visiting elders',gp('el'),'text','placeholder="Names of visiting elders"')}${f('Theme (choose or write your own)',gp('th'),'text','list="tl"')}<datalist id="tl">${S.themes.map(t=>`<option>${esc(t.t)}`).join('')}</datalist>
+<label>Reminders</label>${[[1,'1 day before'],[3,'3 days before'],[7,'1 week before']].map(([d,l])=>`<label class="chk"><input type="checkbox" data-rm="${d}" ${g.rm.includes(d)?'checked':''}>${l}</label>`).join('')}<button data-a="sched">SAVE SCHEDULE</button></div>
+<h3>Scheduled Visits</h3>${S.groups.map((x,i)=>x.dt||x.tm?`<div class="card"><b>${esc(x.n)}</b> — ${esc(x.st)}<br>${fmt(x.dt)} ${esc(x.tm)}<br><small>${esc(x.th)} · ${esc(x.el)}</small><br><button class="b2" data-a="edit" data-i="${i}">Edit</button><button class="bd" data-a="del" data-i="${i}">Delete</button></div>`:'').join('')||'<p>Nothing scheduled yet. Fill in the form above and save.</p>'}`},
+groups(){const g=cg();return `${chips()}<div class="card"><h3>${esc(g.n)}</h3>${f('Group name',gp('n'))}${sel('Month',gp('mo'),MO)}${sel('Day',gp('dy'),DY)}${f('Date',gp('dt'),'date')}${f('Time',gp('tm'),'time')}${f('Visiting elders',gp('el'))}${f('Theme',gp('th'),'text','list="tl"')}<datalist id="tl">${S.themes.map(t=>`<option>${esc(t.t)}`).join('')}</datalist>${ta('Public-talk invitation wording (blank = default)',gp('iv'),4,1)}${ta('Notes',gp('nt'),3)}${ta('Follow-up points',gp('fp'),3)}</div>${good()}${follow()}${table()}`},
+enc(){return `<div class="card pur"><h2>We are not coming to inspect you. We are coming because we value you.</h2><p>We want each publisher to feel that Jehovah sees his or her efforts. Even when someone feels that what they are doing is small, Jehovah values loyal service.</p></div>
+<div class="card">${['We love you.','We appreciate you.','Jehovah sees your efforts.','You are valuable to the congregation.','We want to help you keep going.','Your faithful service matters.'].map(x=>`<p class="q">${x}</p>`).join('')}</div><h3>Scriptures</h3>${S.scr.map((s,i)=>`<details class="card"><summary>${esc(s[0])}</summary><p>${esc(s[1])}</p>${f('Reference','scr.'+i+'.0')}${ta('Thought','scr.'+i+'.1',2)}</details>`).join('')}
+<h3>Six Encouragement Themes</h3>${S.themes.map((t,i)=>`<details class="card"><summary>${T('Group')} ${i+1}: ${esc(t.t)}</summary>${f('Theme','themes.'+i+'.t')}${f('Key scriptures','themes.'+i+'.s')}${ta('Key / heart thought','themes.'+i+'.k',2)}${ta('Illustration','themes.'+i+'.i',3)}${ta('Heart question','themes.'+i+'.q',2)}<button class="b2" data-a="use" data-i="${i}">Use for this group</button></details>`).join('')}
+<details class="card"><summary>Conversation Guide: Start with Appreciation</summary>${ta('Suggested questions (one per line)','conv',8)}</details>
+<h3>JW.org Reference Library</h3>${S.links.map(l=>`<a class="card ref" href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])}<br><small>Opens jw.org in a new tab</small></a>`).join('')}`},
+inv(){return `<div class="card"><h3>Public Talk Invitation</h3>${f('Title','pi.ti')}${f('Theme','pi.th')}${f('Speaker','pi.sp')}${f('Date','pi.dt','date')}${f('Time','pi.tm','time')}${f('Location','pi.lo')}${f('Signed by (elders)','pi.el')}${ta('Special invitation message','pi.ms',6,1)}<button data-a="gen">GENERATE INVITATION</button></div><div class="prev" id="prev" contenteditable="true" role="textbox" aria-label="Invitation preview (editable)">${esc(piText())}</div><p><button class="b2" data-a="pcopy">COPY</button><button data-a="pwa">SHARE TO WHATSAPP</button><button data-a="psig">SHARE TO SIGNAL</button><button class="b2" data-a="gtr">TRANSLATE TO GOOGLE TRANSLATE</button></p>`},
+set(){return `<div class="card"><h3>Settings</h3><label>Language<select data-lang><option value="en">English</option><option value="ga">Ga</option></select></label><button class="b2" data-a="gts">TRANSLATE TO GOOGLE TRANSLATE</button>${sel('Appearance (— = automatic)','mode',['light','dark'])}<button data-a="exp">EXPORT DATA</button><button class="b2" data-a="imp">IMPORT DATA</button><button class="bd" data-a="reset">RESET APP</button></div><div class="card"><h3>JW.org Links</h3>${S.links.map((l,i)=>f('Label','links.'+i+'.0')+f('Link','links.'+i+'.1','url')).join('')}</div><details class="card"><summary>Ga translations</summary><div data-notr>${Object.keys(GA).map(k=>`<label>${esc(k)}<input data-en="${esc(k)}" placeholder="English" value="${esc(S.en[k]||'')}"><input data-ga="${esc(k)}" placeholder="Ga" value="${esc(S.ga[k]||GA[k])}"></label>`).join('')}</div></details><p class="warn">All data stays on this device. Export a backup regularly.</p>`}};
+const mode=()=>document.documentElement.dataset.m=S.mode||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+function render(){$('#main').innerHTML=V[S.tab]();$('#nav').innerHTML=TABS.map(t=>`<button data-go="${t[0]}" class="${t[0]==S.tab?'on':''}" aria-label="${t[2]}"><span>${t[1]}</span>${t[2]}</button>`).join('');$('#sub').textContent=T('Encourage • Build Up • Strengthen');document.querySelectorAll('[data-lang]').forEach(x=>x.value=S.lang);tr($('#main'));tr($('#nav'));mode()}
+const go=t=>{S.tab=t;save();render();scrollTo(0,0)};
+const A={
+wa:i=>{wa(invText(S.groups[i]));bump();render()},
+cpy:i=>{copy(invText(S.groups[i]));bump();render()},
+edit:i=>{S.cur=i;S.tab=S.tab=='sched'?'sched':'groups';render();scrollTo(0,0)},
+tsave:i=>{save();toast('Saved')},
+sched:()=>{cg().st=cg().done?'Completed':'Scheduled';save();toast('Schedule saved');render()},
+del:i=>{if(!confirm(T('Delete this scheduled visit?')))return;Object.assign(S.groups[i],{mo:'',dy:'',dt:'',tm:'',el:'',rm:[],done:false,st:'Scheduled'});save();render()},
+use:i=>{S.groups[i].th=S.themes[i].t;save();toast('Theme updated')},
+gen:()=>{$('#prev').textContent=piText();bump();toast('Invitation ready')},
+pcopy:()=>copy(pv()),pwa:()=>wa(pv()),psig:()=>sig(pv()),gtr:()=>gt(pv()),gts:()=>gt(invText(cg())),gtp:(i,t)=>{const e=document.querySelector(`[data-p="${t.dataset.pp}"]`),x=e.value.slice(e.selectionStart,e.selectionEnd);gt(x||e.value)},
+exp:()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:'application/json'}));a.download='group-visit-backup.json';a.click()},
+imp:()=>$('#imp').click(),
+reset:()=>{if(confirm(T('⚠️ This will erase ALL schedules, notes, themes and settings on this device. This cannot be undone. Export a backup first if unsure. Continue?'))){localStorage.removeItem(K);S=def();render();toast('App reset')}}};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a],[data-go],[data-cur]');if(!t)return;
+if(t.dataset.go)return go(t.dataset.go);
+if(t.dataset.cur!==undefined){S.cur=+t.dataset.cur;save();return render()}
+A[t.dataset.a]?.(+t.dataset.i,t)});
+const ref=()=>{const s=$('#stats');if(s)s.innerHTML=stats()};
+document.addEventListener('input',e=>{const p=e.target.dataset.p;if(p&&e.target.type!='date'&&e.target.tagName!='SELECT'){set(p,e.target.value);ref()}});
+document.addEventListener('change',e=>{const t=e.target,d=t.dataset;
+if(d.lang!==undefined)return setLang(t.value);
+if(d.ga!==undefined){S.ga[d.ga]=t.value;return save()}
+if(d.en!==undefined){t.value?S.en[d.en]=t.value:delete S.en[d.en];return save()}
+if(t.id=='gsel'){S.cur=+t.value;save();return render()}
+if(d.p){set(d.p,t.value);if(d.p=='mode')mode();
+if(t.type=='date'&&/groups\.\d\.dt$/.test(d.p)&&t.value){const g=S.groups[+d.p.split('.')[1]],x=new Date(t.value+'T12:00');g.mo=MO[x.getMonth()];g.dy=DY[x.getDay()];save();render()}else ref()}
+if(d.rm){const g=cg(),n=+d.rm;g.rm=t.checked?[...new Set([...g.rm,n])]:g.rm.filter(x=>x!=n);save()}
+if(d.fc!==undefined){cg().fc[+d.fc]=t.checked?1:0;save();ref()}
+if('done' in d){const g=cg();g.done=t.checked;g.st=t.checked?'Completed':'Scheduled';save();ref()}
+if(t.id=='imp'&&t.files[0]){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x||!Array.isArray(x.groups)||x.groups.length!=6||!Array.isArray(x.themes))throw 0;S=Object.assign(def(),x);save();render();toast('Data imported')}catch(x){toast('That is not a valid Group Visit backup file.')}};r.readAsText(t.files[0]);t.value=''}});
+render();
+</script></body></html>
